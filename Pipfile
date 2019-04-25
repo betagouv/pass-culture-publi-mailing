@@ -9,6 +9,7 @@ name = "pypi"
 google-api-python-client = "*"
 "google-auth-httplib2" = "*"
 google-auth-oauthlib = "*"
+mailjet-rest = "*"
 
 [requires]
 python_version = "3.6"
