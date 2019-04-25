@@ -2,7 +2,7 @@ import re
 from mailjet_rest import Client
 import os
 from datetime import datetime
-
+import requests
 
 def check_mail_regex(mail):
     if not re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", mail):    
@@ -39,6 +39,15 @@ def compute_email_html_part_and_recipients(email_html_part, recipients):
     return email_html_part, email_to
 
 
-def send_sms():
+def send_sms(data):
+    api_token = os.environ.get('MAILJET_TOKEN')
+    headers = {
+        "Authorization":"Bearer {api_token}".format(api_token=api_token),
+        "Content-Type": "application/json"
+    }   
+    endpoint = "https://api.mailjet.com/v4/sms-send"
 
-    return True
+    responses = requests.post(endpoint, headers=headers, json=data)
+    return responses
+
+
