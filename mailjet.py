@@ -37,3 +37,8 @@ def compute_email_html_part_and_recipients(email_html_part, recipients):
     recipients_string = ", ".join(recipients)
     email_to = recipients_string
     return email_html_part, email_to
+
+
+def send_sms():
+
+    return True
