@@ -51,7 +51,7 @@ def read_gsheet(range_name):
         return values
 
 
-def write_gsheet(values, spreadsheetId, range_name, valueInputOption='RAW'):
+def write_gsheet(values, range_name, valueInputOption='RAW'):
     creds = None
     # The file credentials/token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -73,15 +73,17 @@ def write_gsheet(values, spreadsheetId, range_name, valueInputOption='RAW'):
 
     service = build('sheets', 'v4', credentials=creds)
 
-    SPREADSHEET_ID = App.config("PC_PUBLI_MAILING_SPREADSHEET_ID")
+    SPREADSHEET_ID = os.environ.get("PC_PUBLI_MAILING_SPREADSHEET_ID")
     RANGE_NAME = range_name
 
     body = {
         'values': values
     }
-    result = service.spreadsheets().values().update(
+    
+    request = service.spreadsheets().values().update(
         spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME,
-        valueInputOption=valueInputOption, body=body).execute()
-    print('{0} cells updated.'.format(result.get('updatedCells')));
+        valueInputOption=valueInputOption, body=body)
+    response = request.execute()
+    print('{0} cells updated.'.format(response.get('updatedCells')));
     print (RANGE_NAME)
 
